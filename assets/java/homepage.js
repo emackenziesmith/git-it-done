@@ -15,10 +15,10 @@ var formSubmitHandler = function(event) {
         getUserRepos(username);
 
         // clear old content
-        repoContainerEl.textContent = '';
-        nameInputEl.value="";
+        repoContainerEl.textContent = "";
+        nameInputEl.value= "";
     } else {
-        alert('Please enter a GitHub username');
+        alert("Please enter a GitHub username");
     }
 };
 
@@ -37,7 +37,7 @@ var getUserRepos = function() {
                 displayRepos(data, user);
             });
         } else {
-            alert("Error: GitHub User Not Found");
+            alert("Error: " + response.statusText);
         }
     })
     .catch(function(error) {
@@ -47,20 +47,23 @@ var getUserRepos = function() {
 };
 
 var displayRepos = function(repos, searchTerm) {
+    //check if api returned any repos
     if (repos.length === 0) {
         repoContainerEl.textContent = "No repositories found.";
         return;
     }
    
     repoSearchTerm.textContent = searchTerm;
+    
     // loop over repos 
     for (var i = 0; i < repos.length; i++) {
         //format repo name
         var repoName = repos[i].owner.login + "/" + repos[i].name;
 
         //create a container for each repo
-        var repoEl = document.createElement('div');
+        var repoEl = document.createElement("a");
         repoEl.classlist = "list-item flex-row justify-space-between align-center";
+        repoEl.setAttribute("href", "./single-repo.html?repo=" + repoName);
 
         //create a span element to hold repository name
         var titleEl = document.createElement("span"); 
